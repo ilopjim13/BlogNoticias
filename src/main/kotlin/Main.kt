@@ -5,14 +5,30 @@ import database.ConexionMongo
 import model.Cliente
 import model.Comentario
 import model.Noticia
+import repository.ClienteRepository
+import repository.ComentarioRepository
+import repository.NoticiaRepository
+import service.ClienteService
+import service.ComentarioService
+import service.NoticiaService
 
 fun main() {
 
     val console = Console()
     val database = ConexionMongo.getDatabase("dbada")
+
     val collClientes: MongoCollection<Cliente> = database.getCollection("coll_usuarios", Cliente::class.java)
     val collNoticias: MongoCollection<Noticia> = database.getCollection("coll_noticias", Noticia::class.java)
     val collComentarios: MongoCollection<Comentario> = database.getCollection("coll_comentarios", Comentario::class.java)
+
+    val clienteRepository = ClienteRepository(collClientes)
+    val comentarioRepository = ComentarioRepository(collComentarios)
+    val noticiaRepository = NoticiaRepository(collNoticias)
+
+    val clienteService = ClienteService(clienteRepository)
+    val comentarioService = ComentarioService(comentarioRepository)
+    val noticiaService = NoticiaService(noticiaRepository)
+
     val blogManager = BlogManager(collNoticias, collClientes,collComentarios, console)
 
     collClientes.drop()
