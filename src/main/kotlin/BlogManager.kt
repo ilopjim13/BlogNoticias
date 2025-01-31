@@ -1,24 +1,17 @@
 
 import com.mongodb.client.MongoCollection
 import com.mongodb.client.model.Filters
-import com.mongodb.client.model.Sorts
 import console.Console
 import model.Cliente
-import model.Comentario
 import model.Direccion
-import model.Noticia
 import service.ClienteService
 import service.ComentarioService
 import service.NoticiaService
-import java.util.*
 
 class BlogManager(
-    private val collNoticia: MongoCollection<Noticia>,
     private val noticiaService: NoticiaService,
     private val clienteService: ClienteService,
     private val comentarioService: ComentarioService,
-    private val collClientes: MongoCollection<Cliente>,
-    private val collComentarios: MongoCollection<Comentario>,
     private val console:Console
 ) {
 
@@ -38,57 +31,20 @@ class BlogManager(
         }
     }
 
-
-
     fun listarNoticiasUsuario() {
-        console.showMessage("Introduce el nick del usuario: ", false)
-        val nick = readln()
-
-        val filtroClienteNick = Filters.eq("nick", nick)
-        val filtroNoticiaNick = Filters.eq("user", nick)
-
-        if (collClientes.find(filtroClienteNick).toList().isNotEmpty()) {
-            collNoticia.find(filtroNoticiaNick).forEach {
-                console.showMessage(it.toString())
-            }
-        } else console.showMessage("No existe este usuario")
+        noticiaService.listarNoticiaUsuario()
     }
 
     fun listarComentariosNoticia() {
-        var titulo:String
-        do {
-            console.showMessage("Introduce el titulo de la noticia: ", false)
-            titulo = readln()
-            if (titulo != (collNoticia.find(Filters.eq("titulo", titulo)).first()?.titulo ?: "")) {
-                console.showMessage("Esta noticia no existe")
-                titulo = ""
-            }
-        } while (titulo == "")
-        val filtroNoticia = Filters.eq("noticia", titulo)
-        collComentarios.find(filtroNoticia).forEach {
-            console.showMessage(it.toString())
-        }
+        comentarioService.listarComentarioNoticia()
     }
 
     fun noticiasPorTag() {
-        console.showMessage("Introduce un tag: ", false)
-        val tag = readln()
-        val filtroTag = Filters.eq("tag", tag)
-        collNoticia.find(filtroTag).forEach {
-            console.showMessage(it.toString())
-        }
-
+        noticiaService.noticiasPorTag()
     }
 
     fun listarUltimasNoticias() {
-        println("10 ULTIMAS NOTICIAS PUBLICADAS")
-        val sortDescending = Sorts.descending("fechaPub")
-        collNoticia.find()
-            .sort(sortDescending)
-            .limit(10)
-            .forEach {
-                console.showMessage(it.toString())
-            }
+        noticiaService.listarUltimasNoticias()
     }
 
     fun register(collectionClientes: MongoCollection<Cliente>):String {
@@ -126,6 +82,18 @@ class BlogManager(
             collectionClientes.insertMany(listaClientes)
         } catch (e: Exception) {
             println("Clave duplicada")
+        }
+    }
+
+    fun ejecutarMenu(option:Int,usuario:String) {
+        when (option) {
+            1 -> publicarNoticia(usuario)
+            2 -> escribirComentario(usuario)
+            3 -> registrarUsuario()
+            4 -> listarNoticiasUsuario()
+            5 -> listarComentariosNoticia()
+            6 -> noticiasPorTag()
+            7 -> listarUltimasNoticias()
         }
     }
 

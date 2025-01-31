@@ -1,6 +1,6 @@
 package console
 
-class Console() {
+class Console {
 
     fun showMenu() {
         showMessage("1- Publicar una noticia")
@@ -27,4 +27,6 @@ class Console() {
         } while (option !in (1..options))
         return  option
     }
+
+
 }

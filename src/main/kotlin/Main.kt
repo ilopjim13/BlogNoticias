@@ -25,39 +25,27 @@ fun main() {
     val comentarioRepository = ComentarioRepository(collComentarios)
     val noticiaRepository = NoticiaRepository(collNoticias)
 
-    val clienteService = ClienteService(clienteRepository)
-    val comentarioService = ComentarioService(comentarioRepository)
-    val noticiaService = NoticiaService(noticiaRepository)
+    val clienteService = ClienteService(clienteRepository, console)
+    val comentarioService = ComentarioService(comentarioRepository, noticiaRepository, console)
+    val noticiaService = NoticiaService(noticiaRepository, clienteRepository, console)
 
-    val blogManager = BlogManager(collNoticias, collClientes,collComentarios, console)
+    val blogManager = BlogManager(noticiaService, clienteService, comentarioService, console)
 
     collClientes.drop()
-
     blogManager.insertClientes(collClientes)
 
     val userNick = blogManager.register(collClientes)
-
     var option:Int
 
     do {
         console.showMenu()
         option = console.getOption(8)
-        executeMenu(option,userNick, blogManager)
+        blogManager.ejecutarMenu(option,userNick)
     } while (option != 8)
 
     ConexionMongo.close()
 }
 
-fun executeMenu(option:Int,usuario:String, blogManager: BlogManager) {
-    when (option) {
-        1 -> blogManager.publicarNoticia(usuario)
-        2 -> blogManager.escribirComentario(usuario)
-        3 -> blogManager.registrarUsuario()
-        4 -> blogManager.listarNoticiasUsuario()
-        5 -> blogManager.listarComentariosNoticia()
-        6 -> blogManager.noticiasPorTag()
-        7 -> blogManager.listarUltimasNoticias()
-    }
-}
+
 
 
