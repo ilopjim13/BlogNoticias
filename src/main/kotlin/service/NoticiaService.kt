@@ -44,7 +44,7 @@ class NoticiaService(private val noticiaRepository: NoticiaRepository, private v
             noticiaRepository.noticiasPorTag(filtroTag).forEach {
                 console.showMessage(it.toString())
             }
-        }
+        } else console.showMessage("No se ha encontrado ninguna noticia con este tag.")
     }
 
     fun listarUltimasNoticias() {
