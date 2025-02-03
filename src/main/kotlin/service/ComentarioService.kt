@@ -12,6 +12,10 @@ class ComentarioService(
     private val noticiaRepository: NoticiaRepository,
     private val console: Console) {
 
+    /**
+     * Escribe un comentario de una noticia en específico y guarda en la base de datos el comentario
+     * con el nombre del usuario y el titulo de la noticia
+     */
     fun escribirComentario(usuario:String) {
         val titulo = obtenerTitulo()
         console.showMessage("Introduce el comentario: ", false)
@@ -21,6 +25,9 @@ class ComentarioService(
         comentarioRepository.escribirComentario(comentario)
     }
 
+    /**
+     * Obtiene los comentarios filtrados por el titulo de la noticia y los muestra por pantalla
+     */
     fun listarComentarioNoticia(){
         val titulo = obtenerTitulo()
         val filtroNoticia = Filters.eq("noticia", titulo)
@@ -29,6 +36,9 @@ class ComentarioService(
         }
     }
 
+    /**
+     * Obtiene un titulo existente en la base de datos
+     */
     private fun obtenerTitulo() :String {
         var titulo:String
         do {

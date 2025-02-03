@@ -29,7 +29,7 @@ class BlogManager(
 
     private fun registrarUsuario() {
         try {
-            clienteService.registrarUsuario()
+            clienteService.altaUsuario()
         } catch (e:Exception) {
             console.showMessage("Clave duplicada.")
         }
@@ -67,18 +67,18 @@ class BlogManager(
         }
     }
 
-    fun register():String {
+    fun iniciarSesion():String {
         try {
-            return clienteService.register()
+            return clienteService.iniciarSesion()
         } catch (e:Exception) {
             console.showMessage(e.message.toString())
             return ""
         }
     }
 
-    fun insertClientes() {
+    fun insertarClientes() {
         try {
-            clienteService.insertClientes()
+            clienteService.insertarClientes()
         } catch (e: Exception) {
             println("Clave duplicada")
         }

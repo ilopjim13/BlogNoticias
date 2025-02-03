@@ -10,8 +10,10 @@ import java.util.*
 
 class NoticiaService(private val noticiaRepository: NoticiaRepository, private val clienteRepository: ClienteRepository, private val console: Console) {
 
+    /**
+     * Publica una noticia con los datos necesarios de las noticias y la inserta en la base de datos
+     */
     fun publicarNoticia(usuario:String) {
-
         console.showMessage("Introduce el titulo de la noticia: ", false)
         val titulo = readln()
         print("Introduce el cuerpo de la noticia: ")
@@ -23,6 +25,9 @@ class NoticiaService(private val noticiaRepository: NoticiaRepository, private v
         noticiaRepository.publicarNoticia(noticia)
     }
 
+    /**
+     * Obtiene una lista de noticias por el nick de los usuarios y las muestra por pantalla
+     */
     fun listarNoticiaUsuario() {
         console.showMessage("Introduce el nick del usuario: ", false)
         val nick = readln()
@@ -36,6 +41,9 @@ class NoticiaService(private val noticiaRepository: NoticiaRepository, private v
         } else console.showMessage("No existe este usuario")
     }
 
+    /**
+     * Obtiene una lista de noticias por el tag introducido y las muestra por pantalla
+     */
     fun noticiasPorTag() {
         console.showMessage("Introduce un tag: ", false)
         val tag = readln()
@@ -47,6 +55,9 @@ class NoticiaService(private val noticiaRepository: NoticiaRepository, private v
         } else console.showMessage("No se ha encontrado ninguna noticia con este tag.")
     }
 
+    /**
+     * Obtiene las 10 últimas noticias publicadas por los usuarios
+     */
     fun listarUltimasNoticias() {
         console.showMessage("10 ULTIMAS NOTICIAS PUBLICADAS")
         val sortDescending = Sorts.descending("fechaPub")

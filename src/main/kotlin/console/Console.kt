@@ -2,6 +2,9 @@ package console
 
 class Console {
 
+    /**
+     * Muestra el menú
+     */
     fun showMenu() {
         showMessage("1- Publicar una noticia")
         showMessage("2- Hacer un comentario")
@@ -13,11 +16,17 @@ class Console {
         showMessage("8- Salir")
     }
 
+    /**
+     * Imprime por pantalla un mensaje
+     */
     fun showMessage(message:String, breakLine:Boolean = true) {
         if (breakLine) println(message)
         else print(message)
     }
 
+    /**
+     * Obtiene una opción válida y la devuelve
+     */
     fun getOption(options:Int):Int {
         var option:Int
         do {

@@ -8,7 +8,11 @@ import repository.ClienteRepository
 
 class ClienteService(private val clienteRepository: ClienteRepository, private val console: Console) {
 
-    fun registrarUsuario() {
+    /**
+     * Pide los datos del usuario que se va a insertar comprobando que el correo y el nick no existan en la base de
+     * datos y una vez estén los datos bien llama al repository para que inserte al cliente
+     */
+    fun altaUsuario() {
         var correo:String
         do {
             console.showMessage("Introduce el correo del usuario: ", false)
@@ -33,9 +37,12 @@ class ClienteService(private val clienteRepository: ClienteRepository, private v
         console.showMessage("Introduce los números de teléfono separados por , (766554433,888776644,...): ")
         val tlfns = readln().split(",")
         val cliente = Cliente(correo, nombre, nick, true, tlfns, direccion)
-        clienteRepository.registrarUsuario(cliente)
+        clienteRepository.altaUsuario(cliente)
     }
 
+    /**
+     * Pide los datos de la dirección del usuario y retorna la Direccion
+     */
     private fun registrarDireccion(): Direccion {
         console.showMessage("Introduce la calle: ", false)
         val calle = readln()
@@ -51,7 +58,10 @@ class ClienteService(private val clienteRepository: ClienteRepository, private v
         return Direccion(calle, num, puerta, cp, ciudad)
     }
 
-    fun register():String {
+    /**
+     * Pide el nick del usuario para iniciar sesión en la aplicación
+     */
+    fun iniciarSesion():String {
         var nick:String
         do {
             var accept = false
@@ -69,7 +79,10 @@ class ClienteService(private val clienteRepository: ClienteRepository, private v
         return nick
     }
 
-    fun insertClientes() {
+    /**
+     * Inserta a la base de datos varios clientes para poder iniciar con datos en la base de datos
+     */
+    fun insertarClientes() {
         val direccion = Direccion("alamo", "24","", "04638", "Mojacar")
         val direccion2 = Direccion("desconocida", "24","", "04003", "Almeria")
         val direccion3 = Direccion("principal", "2","", "04003", "Almeria")
@@ -80,8 +93,7 @@ class ClienteService(private val clienteRepository: ClienteRepository, private v
         val cliente4 = Cliente("antonio@gmail.com", "Antonio", "toni", true, listOf("950475658", "666888999"), direccion4)
         val cliente5 = Cliente("agustin@gmail.com", "Agustin", "agus", true, listOf("950475656", "666888999"), direccion4)
         val listaClientes = listOf(cliente, cliente2, cliente3, cliente4, cliente5)
-        clienteRepository.insertClientes(listaClientes)
-
+        clienteRepository.insertarClientes(listaClientes)
     }
 
 }
