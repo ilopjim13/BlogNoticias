@@ -6,6 +6,7 @@ class Console {
      * Muestra el menú
      */
     fun showMenu() {
+        showMessage("---------MENU----------")
         showMessage("1- Publicar una noticia")
         showMessage("2- Hacer un comentario")
         showMessage("3- Registrar un usuario")

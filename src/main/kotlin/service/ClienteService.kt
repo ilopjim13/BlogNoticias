@@ -72,8 +72,9 @@ class ClienteService(private val clienteRepository: ClienteRepository, private v
             if (clienteRepository.comprobarNoticiaUsuario(filtroNick)) {
                 if (clienteRepository.comprobaRegister(filtroNick, nick)) {
                     accept = true
-                }
-            }
+                    console.showMessage("Bienvenido $nick")
+                } else console.showMessage("Error - Nickname erróneo")
+            } else console.showMessage("Error - Nickname erróneo")
         } while (!accept)
 
         return nick

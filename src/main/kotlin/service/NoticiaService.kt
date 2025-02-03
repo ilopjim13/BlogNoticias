@@ -14,8 +14,7 @@ class NoticiaService(private val noticiaRepository: NoticiaRepository, private v
      * Publica una noticia con los datos necesarios de las noticias y la inserta en la base de datos
      */
     fun publicarNoticia(usuario:String) {
-        console.showMessage("Introduce el titulo de la noticia: ", false)
-        val titulo = readln()
+        val titulo = obtenerTitulo()
         print("Introduce el cuerpo de la noticia: ")
         val cuerpo = readln()
         console.showMessage("Introduce los tags separado por , (salud,deporte,...): ", false)
@@ -35,9 +34,13 @@ class NoticiaService(private val noticiaRepository: NoticiaRepository, private v
         val filtroClienteNick = Filters.eq("nick", nick)
         val filtroNoticiaNick = Filters.eq("user", nick)
         if (clienteRepository.comprobarNoticiaUsuario(filtroClienteNick)) {
-            noticiaRepository.listarNoticiaUsuario(filtroNoticiaNick).forEach {
-                console.showMessage(it.toString())
-            }
+            val listaNoticias = noticiaRepository.listarNoticiaUsuario(filtroNoticiaNick)
+            if(listaNoticias.toList().isNotEmpty()) {
+                listaNoticias.forEach {
+                    console.showMessage(it.toString())
+                }
+            } else console.showMessage("Este usuario no tiene noticias.")
+
         } else console.showMessage("No existe este usuario")
     }
 
@@ -67,6 +70,22 @@ class NoticiaService(private val noticiaRepository: NoticiaRepository, private v
             .forEach {
                 console.showMessage(it.toString())
             }
+    }
+
+    /**
+     * Obtiene un titulo existente en la base de datos
+     */
+    private fun obtenerTitulo() :String {
+        var titulo:String
+        do {
+            console.showMessage("Introduce el título de la noticia: ", false)
+            titulo = readln()
+            if (!noticiaRepository.comprobarNoticia(titulo)) {
+                console.showMessage("Esta noticia ya existe")
+                titulo = ""
+            }
+        } while (titulo == "")
+        return titulo
     }
 
 }

@@ -14,6 +14,7 @@ class BlogManager(
     private fun publicarNoticia(usuario:String) {
         try {
             noticiaService.publicarNoticia(usuario)
+            console.showMessage("Noticia publicada.")
         } catch (e:Exception) {
             console.showMessage(e.message.toString())
         }
@@ -22,6 +23,7 @@ class BlogManager(
     private fun escribirComentario(usuario: String) {
         try {
             comentarioService.escribirComentario(usuario)
+            console.showMessage("Comentario publicado.")
         } catch (e:Exception) {
             console.showMessage(e.message.toString())
         }
@@ -30,6 +32,7 @@ class BlogManager(
     private fun registrarUsuario() {
         try {
             clienteService.altaUsuario()
+            console.showMessage("Usuario registrado.")
         } catch (e:Exception) {
             console.showMessage("Clave duplicada.")
         }

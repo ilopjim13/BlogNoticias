@@ -31,9 +31,13 @@ class ComentarioService(
     fun listarComentarioNoticia(){
         val titulo = obtenerTitulo()
         val filtroNoticia = Filters.eq("noticia", titulo)
-        comentarioRepository.listarComentarioNoticia(filtroNoticia).forEach {
-            console.showMessage(it.toString())
-        }
+        val listaComentarios = comentarioRepository.listarComentarioNoticia(filtroNoticia)
+        if (listaComentarios.toList().isNotEmpty()) {
+            listaComentarios.forEach {
+                console.showMessage(it.toString())
+            }
+        } else console.showMessage("Esta noticia no tiene comentarios.")
+
     }
 
     /**
