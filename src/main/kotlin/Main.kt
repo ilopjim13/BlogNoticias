@@ -32,9 +32,9 @@ fun main() {
     val blogManager = BlogManager(noticiaService, clienteService, comentarioService, console)
 
     collClientes.drop()
-    blogManager.insertClientes(collClientes)
+    blogManager.insertClientes()
 
-    val userNick = blogManager.register(collClientes)
+    val userNick = blogManager.register()
     var option:Int
 
     do {

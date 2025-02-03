@@ -11,6 +11,12 @@ class ClienteRepository(private val collClientes: MongoCollection<Cliente>) {
 
     fun comprobarUsuario(nick:String):Boolean = nick == (collClientes.find(Filters.eq("nick", nick)).first()?.nick ?: "")
 
+    fun comprobarCorreo(correo:String):Boolean = correo == (collClientes.find(Filters.eq("_id", correo)).first()?._id ?: "")
+
     fun comprobarNoticiaUsuario(filtroClienteNick: Bson):Boolean  = collClientes.find(filtroClienteNick).toList().isNotEmpty()
+
+    fun insertClientes(listaClientes:List<Cliente>) { collClientes.insertMany(listaClientes) }
+
+    fun comprobaRegister(filtroClienteNick: Bson, nick: String):Boolean = collClientes.find(filtroClienteNick).toList().first().nick == nick
 
 }
