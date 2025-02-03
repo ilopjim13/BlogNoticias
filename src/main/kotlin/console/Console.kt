@@ -25,7 +25,7 @@ class Console {
     }
 
     /**
-     * Obtiene una opción válida y la devuelve para ejecutar el menú
+     * Obtiene una opción válida y la devuelve para ejecutar el menú.
      */
     fun getOption(options:Int):Int {
         var option:Int
