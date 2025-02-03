@@ -57,6 +57,7 @@ class ClienteService(private val clienteRepository: ClienteRepository, private v
             var accept = false
             print("Introduce tu nickName para registrarte: ")
             nick = readln()
+
             val filtroNick = Filters.eq("nick", nick)
             if (clienteRepository.comprobarNoticiaUsuario(filtroNick)) {
                 if (clienteRepository.comprobaRegister(filtroNick, nick)) {
